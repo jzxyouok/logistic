@@ -1,6 +1,5 @@
 var xmlParse = require('xml2js').parseString;
-var Util = require('./util');
-var util = new Util();
+var util = require('./util').util;
 
 function Processor(){
 

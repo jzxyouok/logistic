@@ -1,12 +1,10 @@
 var express = require('express');
 var path = require('path');
-var config = require('./config');
 var wxprocessor = require('./wxprocessor');
 var app = express();
 var xmlparser = require('express-xml-bodyparser');
-var Util = require('./util');
-var util = new Util();
-var settings = new config();
+var util = require('./util').util;
+var settings = require('./config').settings;
 var processor = new wxprocessor();
 
 app.set('views',path.join(__dirname,'views'));
@@ -31,7 +29,19 @@ app.get('/',function(req,res){
       res.end(params.echostr);
     }
   }else{
-    res.render('index',{title:'故障保修'});
+    var data = {
+      appId:settings.APPID,
+      title:'故障保修',
+    };
+    util.getLoaclJsApiTicket(function(jsapi_ticket){
+      if(jsapi_ticket){
+        var sign = util.sign(jsapi_ticket,'http://121.42.50.44:9527'+req.url);
+        data.timestamp = sign.timestamp||'';
+        data.nonceStr = sign.nonceStr||'';
+        data.signature = sign.signature||'';
+      }
+      res.render('index',data);
+    });
   }
 });
 
