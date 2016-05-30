@@ -45,6 +45,20 @@ app.get('/',function(req,res){
   }
 });
 
+app.get('/water',function(req,res,next){
+  var data = {
+    title:'送水'
+  };
+  res.render('water',data);
+});
+
+app.get('/repair',function(req,res,next){
+  var data = {
+    title:'故障保修'
+  };
+  res.render('repair',data);
+});
+
 app.post('/',xmlparser({trim: false, explicitArray: false}),function(req,res,next){
   console.log(req.body);
   res.end("");

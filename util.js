@@ -93,7 +93,7 @@ Util.prototype = {
       method: 'POST',
       headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          //'Content-Length': post_str.length
+          'Content-Length': post_str.length
        }
       };
       var req = https.request(opt, function (response) {

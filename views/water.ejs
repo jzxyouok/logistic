@@ -1,0 +1,26 @@
+<%include header.ejs%>
+<div class="hd">
+  <h1 class="page_title">送水</h1>
+</div>
+<div class="weui_cells weui_cells_form">
+  <div class="weui_cell">
+      <div class="weui_cell_hd"><label class="weui_label">宿舍号</label></div>
+      <div class="weui_cell_bd weui_cell_primary">
+          <input id="water_domId" class="weui_input" type="text" placeholder="如：13#e2414" required="required">
+      </div>
+  </div>
+  <div class="weui_cell">
+      <div class="weui_cell_hd"><label class="weui_label">品牌</label></div>
+      <div class="weui_cell_bd weui_cell_primary">
+          <input id="water_brand" class="weui_input" type="text" placeholder="如：香山农泉" required="required">
+      </div>
+  </div>
+  <div class="weui_cell">
+    <div class="weui_cell_hd"><label class="weui_label">备注</label></div>
+      <div class="weui_cell_bd weui_cell_primary">
+          <textarea id="water_extra" class="weui_textarea" placeholder="..." rows="3"></textarea>
+      </div>
+  </div>
+</div>
+  <a id='btn_water_ok' class="weui_btn weui_btn_primary">确定</a>
+<%include footer.ejs%>
