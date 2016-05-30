@@ -20,8 +20,10 @@
   },
   "homepage": "https://github.com/Ynull/logistic#readme",
   "dependencies": {
+    "body-parser": "^1.15.1",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
+    "express-session": "^1.13.0",
     "express-xml-bodyparser": "^0.3.0",
     "xml2js": "^0.4.16"
   }

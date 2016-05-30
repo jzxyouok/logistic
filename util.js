@@ -111,6 +111,49 @@ Util.prototype = {
     });
   },
 
+  sendMessage:function(touser,msg,next){
+  this.getLocalAccessToken(function(token){
+    console.log('向用户发送消息');
+    var to = touser||"";
+    var ms = msg||"";
+    if(to===""||ms==="")return;
+    var message = {
+      "touser":to,
+      "msgtype":"text",
+      "text":
+      {
+        "content":msg
+      }
+    };
+    var send_message = new Buffer(JSON.stringify(message));
+    var access_token = token;
+    var opt = {
+      host: 'api.weixin.qq.com',
+      path: '/cgi-bin/message/custom/send?access_token=' + access_token,
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': send_message.length
+       }
+    };
+    var req = https.request(opt, function (response) {
+      var responseText = [];
+      response.setEncoding('utf8');
+      response.on('data', function (data) {
+        responseText.push(data);
+      });
+      response.on('end', function () {
+        console.log(responseText);
+      });
+    }).on('err',function(err){
+      next(err);
+    });
+    req.write(send_message);
+    req.end();
+    next();
+  });
+},
+
   /**
 * 生成js-sdk签名
 *
@@ -180,6 +223,29 @@ sign:function(jsapi_ticket, url){
     }else{
       next(jsapi_ticket.ticket);
     }
+  },
+  /**
+  *获取用户基本信息
+  *@param accessToken 调用接口凭证
+  *@param openId 普通用户的标识，对当前公众号唯一
+  *@param next 回调函数
+  */
+  getUserInfo:function(accessToken,openId,next){
+    var LINK = "https://api.weixin.qq.com/cgi-bin/user/info?"+
+    "access_token="+accessToken+"&openid="+openId+"&lang=zh_CN";
+    https.get(encodeURI(LINK),function(res){
+      var data = "";
+      res.on('data',function(chunk){
+          data += chunk;
+      });
+      res.on('end',function(){
+        var result = JSON.parse(data);
+        next(result);
+      });
+    }).on('err',function(err){
+      console.log("获取用户基本信息出错"+err);
+      return;
+    });
   }
 };
 
